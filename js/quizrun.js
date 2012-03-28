@@ -52,8 +52,11 @@ CW.VideoApp.QuizRun = function () {
                         CW.VideoApp.QuizRun.mods[i].style.display='inline';
                     }
                     
-                    //createPlayer(yt_videoID);
-                    //document.getElementById('startmsg').style.display='none';
+                    // if there are questions, but no markers on the scrubber, add them all
+                    if (!$.isEmptyObject(CW.VideoApp.QuizRun.questions) && 
+                            CW.VideoApp.quizMarkers.length == 0) {
+                        CW.VideoApp.initQuizMarkers(CW.VideoApp.QuizRun.questions);
+                    }
                 }
              });
 
@@ -103,7 +106,7 @@ CW.VideoApp.QuizRun = function () {
                 $('#qInst').append('<div id="dNd" class="bottomAlign"><h4>'+typeString+'</h4></div>');
 
                 //qDiv.innerHTML='<div id="qaSpace"><textarea readonly="readonly" id="questionText" rows="3"></textarea><br /></div><div id="saSpace"><br /><textarea id="answerTemplate" row="2" placeholder="Answer"></textarea><br /></div>';
-                $('questionBG').append('<div id="qaSpace"><textarea readonly="readonly" id="questionText" rows="3"></textarea><br /></div><div id="saSpace"><br /><textarea id="answerTemplate" row="2" placeholder="Answer"></textarea><br /></div>');
+                $('#questionBG').append('<div id="qaSpace"><textarea readonly="readonly" id="questionText" rows="3"></textarea><br /></div><div id="saSpace"><br /><textarea id="answerTemplate" row="2" placeholder="Answer"></textarea><br /></div>');
 
             }
 
