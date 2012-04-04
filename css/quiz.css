@@ -1,4 +1,6 @@
-
+#lecture-id-container {
+    float: left;
+}
 
 #pane-trans-slider{
     position: absolute;
@@ -61,8 +63,6 @@
   padding: 0;
 }
 
-
-
 .quizmodule{
   margin: 0 auto;
   width: 800px;
@@ -116,11 +116,9 @@ textarea{
     font-size: 12pt;
 }
 
-
-
 #qInst{
     width:800px;
-    height:80px;
+    /* height:80px; */
     position:relative;
 }
 #qInst h4{
@@ -260,5 +258,7 @@ div#buttonDiv {
 
 .slider { border-color: #ccc; margin-bottom: .5em; /*width: 638px;*/  }
 .slider .ui-slider-handle { border-color: #333; width: .5em; }
+
+#player-controls { margin: 0 0 .3em; }
 
 #quiz-container { float: right; }

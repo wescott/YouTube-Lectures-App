@@ -22,7 +22,7 @@ CW.VideoApp = function () {
 
         POLL_CALLS: 0,
 
-        POLL_INTERVAL_ID: -1,
+        POLL_INTERVAL_IDS: [],
 
         POLL_INTERVAL_CLEARED: false,
 
@@ -57,6 +57,14 @@ CW.VideoApp = function () {
 
         },
 
+        // safety measure to kill all intervals
+        clearAllIntervals: function (intervalArray) {
+            arrLen = intervalArray.length;
+            for (var i = 0; i <= arrLen; i+=1) {
+                clearInterval(intervalArray.shift());
+            }
+        },
+
         initPlayerControls: function () {
         
             // initialize the polling interval status
@@ -69,10 +77,6 @@ CW.VideoApp = function () {
 
                 $('#cwplayer-scrubber').slider('option', 'value', CW.VideoApp.cwplayer.getCurrentTime());
 
-                if (CW.VideoApp.POLL_INTERVAL_CLEARED) {
-                    CW.VideoApp.POLL_INTERVAL_ID = setInterval(CW.VideoApp.updateSlider, 200);
-                }
-
             });
 
             // add click listener for the Pause link
@@ -80,7 +84,7 @@ CW.VideoApp = function () {
 
                 CW.VideoApp.cwplayer.pauseVideo();
 
-                clearInterval(CW.VideoApp.POLL_INTERVAL_ID); 
+                CW.VideoApp.clearAllIntervals(CW.VideoApp.POLL_INTERVAL_IDS); 
                 CW.VideoApp.POLL_INTERVAL_CLEARED = true;
 
             });
@@ -88,7 +92,9 @@ CW.VideoApp = function () {
             // initialize the jQuery slider and add stop handler
             CW.VideoApp.scrubber = $('#cwplayer-scrubber').slider({
                 start: function (ev, ui) {
-                    $('#pause-video').click();
+                    CW.VideoApp.cwplayer.pauseVideo();
+                    CW.VideoApp.clearAllIntervals(CW.VideoApp.POLL_INTERVAL_IDS); 
+                    CW.VideoApp.POLL_INTERVAL_CLEARED = true;
                 },
                 stop: function (ev, ui) {
                     if (CW.VideoApp.cwplayer) {
@@ -178,11 +184,11 @@ CW.VideoApp = function () {
 
             if (event.data == YT.PlayerState.PLAYING) {
 
-                CW.VideoApp.POLL_INTERVAL_ID = setInterval(CW.VideoApp.updateSlider, 200);
+                CW.VideoApp.POLL_INTERVAL_IDS[CW.VideoApp.POLL_INTERVAL_IDS.length] = setInterval(CW.VideoApp.updateSlider, 200);
 
             } else {
 
-                clearInterval(CW.VideoApp.POLL_INTERVAL_ID);
+                CW.VideoApp.clearAllIntervals(CW.VideoApp.POLL_INTERVAL_IDS);
                 CW.VideoApp.POLL_INTERVAL_CLEARED = true;
 
             }
@@ -203,8 +209,17 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // create an <iframe> (and YouTube player) after the API code downloads
 // {global}
 function onYouTubePlayerAPIReady() {
-    CW.VideoApp.ytVideoId = $('#vidID').val() || $('#yt_videoID').val() || '0R3uYd1cz20';
+    CW.VideoApp.ytVideoId = $('#vidID').val() || '1kFNYuteAjA';
+	var videoId = $('#vidID').val();
+	if (!videoId) {
+		videoId = $('#yt_videoID').val();
+	}
+	if (!videoId) {
+		videoId = '1kFNYuteAjA'
+	}
+    CW.VideoApp.ytVideoId = videoId;
     CW.VideoApp.createPlayer(CW.VideoApp.ytVideoId);
+
 }
 
 
@@ -218,3 +233,4 @@ function onPlayerStateChange(event) {
 function stopVideo() {
     CW.VideoApp.cwplayer.stopVideo();
 }
+

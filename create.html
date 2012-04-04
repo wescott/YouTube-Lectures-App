@@ -1,13 +1,6 @@
 <div id="startContainer">
 	<div id="startmsg">
-
-		<table style='margin-bottom: 20px;'>
-			<tr>
-				<td>
-					<input type="hidden" id="vidID" name="vidID" required="required" value="$yt_videoID" onkeydown="if (event.keyCode == 13) document.getElementById('vidChoice').click()" />
-				</td>
-			</tr>
-		</table>
+        <input type="hidden" id="vidID" name="vidID" required="required" value="$yt_videoID" onkeydown="if (event.keyCode == 13) document.getElementById('vidChoice').click()" />
         <input type="hidden" id="course_guid" name="course_guid" value="$course_guid" />
 		<input type="hidden" onclick="prepareQuizModule()" id="vidChoice" name="vidChoice" class="elgg-button elgg-button-submit" value="Submit" />
 	</div>
@@ -20,10 +13,12 @@
 			<div id="cwplayer"></div>
             <div id="cwplayer-footer">
                 <div id="cwplayer-scrubber" class="slider"></div>
-                <a id="play-video">Play</a> |  
-                <a id="pause-video">Pause</a> |  
-                <label for="runtime">Running time:</label>
-                <span id="runtime"></span> /
+                <div id="player-controls">
+                    <a id="play-video">Play</a> |  
+                    <a id="pause-video">Pause</a> |  
+                    <label for="runtime">Running time:</label>
+                    <span id="runtime"></span> /
+                </div>
             </div>
 			<div id="pane-trans-slider"></div>
 			<div id="questionSelector">
@@ -35,18 +30,13 @@
 
 		</div>
 		<div id="createButtons">
-			<input class="elgg-button elgg-button-submit" id="MCbutton"
-				type="button" onclick="CW.VideoApp.QuizGen.newQ(1)"
-				value="Add multiple-choice at current time" /> <input
-				class="elgg-button elgg-button-submit" id="SAbutton" type="button"
-				onclick="CW.VideoApp.QuizGen.newQ(2)" value="Add short-answer at current time" />
+			<input class="elgg-button elgg-button-submit" id="MCbutton" type="button" onclick="CW.VideoApp.QuizGen.newQ(1)" value="Add multiple-choice at current time" /> 
+            <input class="elgg-button elgg-button-submit" id="SAbutton" type="button" onclick="CW.VideoApp.QuizGen.newQ(2)" value="Add short-answer at current time" />
 		</div>
-
-
-
 	</div>
 </div>
 
 <div id="output">
 	<textarea style="display: none;" rows="20" cols="80" id="jsonOutput"></textarea>
 </div>
+<script src="js/quizgen.js"></script>
